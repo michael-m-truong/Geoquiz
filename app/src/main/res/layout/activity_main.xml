@@ -10,7 +10,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:padding="24dp"
-		android:text="What's your favorite color" />
+		android:text="@string/question_text" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -19,21 +19,20 @@
 		android:gravity="center">
 
 		<Button
-			android:id="@+id/trueButton"
-			android:layout_width="0dp"
+			android:id="@+id/true_button"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="12dp"
 			android:layout_marginStart="12dp"
-			android:layout_weight="1"
-			android:text="True" />
+			android:text="@string/true_button" />
 
 		<Button
-			android:id="@+id/falseButton"
-			android:layout_width="0dp"
+			android:id="@+id/false_button"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
 			android:layout_marginEnd="12dp"
 			android:layout_marginStart="12dp"
-			android:text="False" />
+			android:text="@string/false_button" />
+
 	</LinearLayout>
 </LinearLayout>
