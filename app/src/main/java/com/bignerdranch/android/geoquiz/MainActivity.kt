@@ -18,9 +18,6 @@ class MainActivity : AppCompatActivity() {
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
 
-        // Set button widths
-        setButtonWidths()
-
         // Set button click listeners
         trueButton.setOnClickListener { view: View ->
             // Do something in response to the "True" button click
@@ -31,17 +28,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setButtonWidths() {
-        // Get the screen width
-        val screenWidth = resources.displayMetrics.widthPixels
-
-        // Calculate 40% of the screen width
-        val desiredWidth = (0.4 * screenWidth).toInt()
-
-        // Set the calculated width to the buttons
-        trueButton.layoutParams.width = desiredWidth
-        falseButton.layoutParams.width = desiredWidth
-        trueButton.requestLayout()
-        falseButton.requestLayout()
-    }
 }
