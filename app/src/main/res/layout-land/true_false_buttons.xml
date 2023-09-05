@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/true_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/true_button"
+        app:layout_constraintEnd_toStartOf="@id/false_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_text"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.20" />
+
+    <Button
+        android:id="@+id/false_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/false_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/true_button"
+        app:layout_constraintTop_toBottomOf="@id/question_text"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.20" />
+
+</merge>
