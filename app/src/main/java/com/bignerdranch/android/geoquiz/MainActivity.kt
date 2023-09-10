@@ -31,30 +31,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         includedBinding = TrueFalseButtonsBinding.bind(binding.root)
 
-        // Initialize views
-        //trueButton = findViewById(R.id.true_button)
-        //falseButton = findViewById(R.id.false_button)
-
-        // Set button click listeners
-
-        //binding.root.addView(includedBinding.root)
-
         // Set button click listeners for the included layout components
         includedBinding.trueButton.setOnClickListener { view: View ->
-            Toast.makeText(
-                this,
-                R.string.correct_toast,
-                Toast.LENGTH_SHORT
-            ).show()
+            checkAnswer(true)
+
         }
 
         includedBinding.falseButton.setOnClickListener { view: View ->
-            Toast.makeText(
-                this,
-                R.string.correct_toast,
-                Toast.LENGTH_SHORT
-            ).show()
+            checkAnswer(false)
+
         }
+
+        binding.prevButton.setOnClickListener {
+            currentIndex = (currentIndex - 1) % questionBank.size
+            val questionTextResId = questionBank[currentIndex].textResId
+            binding.questionTextView.setText(questionTextResId)
+        }
+
+        binding.nextButton.setOnClickListener {
+            currentIndex = (currentIndex + 1) % questionBank.size
+            val questionTextResId = questionBank[currentIndex].textResId
+            binding.questionTextView.setText(questionTextResId)
+        }
+
+        val questionTextResId = questionBank[currentIndex].textResId
+        binding.questionTextView.setText(questionTextResId)
+
+    }
+
+    private fun checkAnswer(userAnswer: Boolean) {
+        val correctAnswer = questionBank[currentIndex].answer
+        val messageResId = if (userAnswer == correctAnswer) {
+            R.string.correct_toast
+        } else {
+            R.string.incorrect_toast
+        }
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+            .show()
     }
 
 }
