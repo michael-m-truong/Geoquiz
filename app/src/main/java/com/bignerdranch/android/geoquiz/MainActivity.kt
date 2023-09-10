@@ -5,11 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
+import com.bignerdranch.android.geoquiz.databinding.TrueFalseButtonsBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var trueButton: Button
-    private lateinit var falseButton: Button
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var includedBinding: TrueFalseButtonsBinding
+
+//    private lateinit var trueButton: Button
+//    private lateinit var falseButton: Button
 
     private val questionBank = listOf(
         Question(R.string.question_australia, true),
@@ -22,26 +27,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        includedBinding = TrueFalseButtonsBinding.bind(binding.root)
 
         // Initialize views
-        trueButton = findViewById(R.id.true_button)
-        falseButton = findViewById(R.id.false_button)
+        //trueButton = findViewById(R.id.true_button)
+        //falseButton = findViewById(R.id.false_button)
 
         // Set button click listeners
-        trueButton.setOnClickListener { view: View ->
+
+        //binding.root.addView(includedBinding.root)
+
+        // Set button click listeners for the included layout components
+        includedBinding.trueButton.setOnClickListener { view: View ->
             Toast.makeText(
                 this,
                 R.string.correct_toast,
                 Toast.LENGTH_SHORT
             ).show()
-
         }
 
-        falseButton.setOnClickListener { view: View ->
+        includedBinding.falseButton.setOnClickListener { view: View ->
             Toast.makeText(
                 this,
-                R.string.incorrect_toast,
+                R.string.correct_toast,
                 Toast.LENGTH_SHORT
             ).show()
         }
