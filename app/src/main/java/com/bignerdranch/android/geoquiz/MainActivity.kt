@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 import com.bignerdranch.android.geoquiz.databinding.TrueFalseButtonsBinding
 
@@ -14,17 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var includedBinding: TrueFalseButtonsBinding
 
-//    private lateinit var trueButton: Button
-//    private lateinit var falseButton: Button
-
-    private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true))
-    private var currentIndex = 0
+    private val quizViewModel: QuizViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,27 +35,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.prevButton.setOnClickListener {
-            currentIndex = (currentIndex - 1) % questionBank.size
-            val questionTextResId = questionBank[currentIndex].textResId
+            quizViewModel.moveToPrev()
+            val questionTextResId = quizViewModel.currentQuestionText
             binding.questionTextView.setText(questionTextResId)
             updateNavButtons()
         }
 
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
-            val questionTextResId = questionBank[currentIndex].textResId
+            quizViewModel.moveToNext()
+            val questionTextResId = quizViewModel.currentQuestionText
             binding.questionTextView.setText(questionTextResId)
             updateNavButtons()
         }
 
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
 
         updateNavButtons()
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         if (userAnswer == correctAnswer) {
             this.correctAnswers++
         }
@@ -76,21 +67,26 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
 
-        if (questionsAnswered == questionBank.size) {
-            val score = (correctAnswers.toDouble() / questionBank.size) * 100
-            Toast.makeText(this, "Quiz Score: ${correctAnswers} / ${questionBank.size}, ${String.format("%.2f", score)}%", Toast.LENGTH_SHORT).show()
+        val numOfQuestions = quizViewModel.numOfQuestions
+
+        if (questionsAnswered == numOfQuestions) {
+            val score = (correctAnswers.toDouble() / numOfQuestions) * 100
+            Toast.makeText(this, "Quiz Score: ${correctAnswers} / ${numOfQuestions}, ${String.format("%.2f", score)}%", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun updateNavButtons() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
+        val currentQuestionIndex = quizViewModel.currentQuestionIndex
+        val numOfQuestions = quizViewModel.numOfQuestions
+
         binding.questionTextView.setText(questionTextResId)
 
         // Set the visibility of the "Prev" button based on whether it's the first question
-        binding.prevButton.visibility = if (currentIndex == 0) View.INVISIBLE else View.VISIBLE
+        binding.prevButton.visibility = if (currentQuestionIndex == 0) View.INVISIBLE else View.VISIBLE
 
         // Set the visibility of the "Next" button based on whether it's the last question
-        binding.nextButton.visibility = if (currentIndex == questionBank.size - 1) View.INVISIBLE else View.VISIBLE
+        binding.nextButton.visibility = if (currentQuestionIndex == numOfQuestions - 1) View.INVISIBLE else View.VISIBLE
     }
 
 }
