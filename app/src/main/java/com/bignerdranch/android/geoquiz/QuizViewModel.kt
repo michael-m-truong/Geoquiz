@@ -16,11 +16,37 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true))
 
+    val answersCorrect = arrayOfNulls<Boolean?>(questionBank.size)
+
     private var currentIndex = 0
 
     var isCheater: Boolean
         get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
         set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+
+    var setAnswer: (Boolean) -> Unit = { answer ->
+        if (this.currentIndex in 0 until answersCorrect.size) {
+            answersCorrect[currentIndex] = answer
+        }
+    }
+
+    var getAnswer: () -> Boolean? = {
+        answersCorrect[currentIndex]
+    }
+
+    var checkAnswered: () -> Boolean = {
+
+        Log.d("AnswerStatus", "answersCorrect[i] is null: ${answersCorrect[this.currentIndex] == null}")
+
+        if (answersCorrect[this.currentIndex] == null) {
+            Log.d("GOOD","FALSE")
+            false
+        }
+        else {
+            true
+        }
+
+    }
 
 
     val currentQuestionIndex: Int

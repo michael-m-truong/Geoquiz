@@ -1,8 +1,10 @@
 package com.bignerdranch.android.geoquiz
 
 import android.app.Activity
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToPrev()
             val questionTextResId = quizViewModel.currentQuestionText
             binding.questionTextView.setText(questionTextResId)
+            checkQuestionAnswered()
             updateNavButtons()
         }
 
@@ -58,6 +61,7 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToNext()
             val questionTextResId = quizViewModel.currentQuestionText
             binding.questionTextView.setText(questionTextResId)
+            checkQuestionAnswered()
             updateNavButtons()
         }
 
@@ -70,13 +74,58 @@ class MainActivity : AppCompatActivity() {
         val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
 
+        checkQuestionAnswered()
         updateNavButtons()
     }
+
+    private fun checkQuestionAnswered() {
+        if (quizViewModel.checkAnswered() == true) {
+            Log.d("hereee", "huhhh${quizViewModel.checkAnswered() == false}")
+            includedBinding.trueButton.visibility = View.INVISIBLE
+            includedBinding.falseButton.visibility = View.INVISIBLE
+            binding.questionAnswered.visibility = View.VISIBLE
+            generateAnswerColor()
+        }
+        else {
+//            includedBinding.root.visibility = View.VISIBLE
+            Log.d("hereee", "this better run")
+            includedBinding.trueButton.visibility = View.VISIBLE
+            includedBinding.falseButton.visibility = View.VISIBLE
+            binding.questionAnswered.visibility = View.INVISIBLE
+        }
+
+    }
+
+    private fun generateAnswerColor() {
+        val isAnswerCorrect = quizViewModel.getAnswer()
+
+        // Get a reference to the TextView
+        val textView = binding.questionAnswered
+
+        if (isAnswerCorrect == true) {
+            // If the answer is correct, set background color to green and change the text
+            textView.setBackgroundColor(Color.parseColor("#39c678"))
+            textView.text = getString(R.string.answered_correct)
+        } else {
+            // If the answer is incorrect, set background color to red and change the text
+            textView.setBackgroundColor(Color.RED)
+            textView.text = getString(R.string.answered_incorrect)
+        }
+
+        // Make the TextView visible
+        textView.visibility = View.VISIBLE
+    }
+
+
 
     private fun checkAnswer(userAnswer: Boolean) {
         val correctAnswer = quizViewModel.currentQuestionAnswer
         if (userAnswer == correctAnswer) {
             this.correctAnswers++
+            quizViewModel.setAnswer(true)
+        }
+        else {
+            quizViewModel.setAnswer(false)
         }
         val messageResId = when {
             quizViewModel.isCheater -> R.string.judgment_toast
@@ -88,10 +137,17 @@ class MainActivity : AppCompatActivity() {
 
         val numOfQuestions = quizViewModel.numOfQuestions
 
+        // Print Toast of quiz score
         if (questionsAnswered == numOfQuestions) {
             val score = (correctAnswers.toDouble() / numOfQuestions) * 100
             Toast.makeText(this, "Quiz Score: ${correctAnswers} / ${numOfQuestions}, ${String.format("%.2f", score)}%", Toast.LENGTH_SHORT).show()
         }
+
+        checkQuestionAnswered()
+    }
+
+    private fun disableButtons() {
+
     }
 
     private fun updateNavButtons() {
