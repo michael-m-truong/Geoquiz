@@ -20,9 +20,26 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
 
     private var currentIndex = 0
 
+    private var correctAnswers = 0
+    private var questionsAnswered = 0
+
     var isCheater: Boolean
         get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
         set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+
+    var increaseCorrectAnswers: () -> Unit = {
+        correctAnswers++
+    }
+
+    val currentCorrectQuestionsAnswered: Int
+        get() = correctAnswers
+
+    var increaseQuestionsAnswered: () -> Unit = {
+        questionsAnswered++
+    }
+
+    val currentQuestionsAnswered: Int
+        get() = questionsAnswered
 
     var setAnswer: (Boolean) -> Unit = { answer ->
         if (this.currentIndex in 0 until answersCorrect.size) {

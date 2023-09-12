@@ -14,8 +14,7 @@ import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 import com.bignerdranch.android.geoquiz.databinding.TrueFalseButtonsBinding
 
 class MainActivity : AppCompatActivity() {
-    private var correctAnswers = 0
-    private var questionsAnswered = 0
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var includedBinding: TrueFalseButtonsBinding
 
@@ -41,12 +40,14 @@ class MainActivity : AppCompatActivity() {
         // Set button click listeners for the included layout components
         includedBinding.trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
-            this.questionsAnswered++
+            quizViewModel.increaseQuestionsAnswered()
+            checkIfQuizFinished()
         }
 
         includedBinding.falseButton.setOnClickListener { view: View ->
             checkAnswer(false)
-            this.questionsAnswered++
+            quizViewModel.increaseQuestionsAnswered()
+            checkIfQuizFinished()
         }
 
         binding.prevButton.setOnClickListener {
@@ -80,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkQuestionAnswered() {
         if (quizViewModel.checkAnswered() == true) {
-            Log.d("hereee", "huhhh${quizViewModel.checkAnswered() == false}")
             includedBinding.trueButton.visibility = View.INVISIBLE
             includedBinding.falseButton.visibility = View.INVISIBLE
             binding.questionAnswered.visibility = View.VISIBLE
@@ -88,7 +88,6 @@ class MainActivity : AppCompatActivity() {
         }
         else {
 //            includedBinding.root.visibility = View.VISIBLE
-            Log.d("hereee", "this better run")
             includedBinding.trueButton.visibility = View.VISIBLE
             includedBinding.falseButton.visibility = View.VISIBLE
             binding.questionAnswered.visibility = View.INVISIBLE
@@ -123,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkAnswer(userAnswer: Boolean) {
         val correctAnswer = quizViewModel.currentQuestionAnswer
         if (userAnswer == correctAnswer) {
-            this.correctAnswers++
+            quizViewModel.increaseCorrectAnswers()
             quizViewModel.setAnswer(true)
         }
         else {
@@ -137,19 +136,17 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
 
-        val numOfQuestions = quizViewModel.numOfQuestions
-
-        // Print Toast of quiz score
-        if (questionsAnswered == numOfQuestions) {
-            val score = (correctAnswers.toDouble() / numOfQuestions) * 100
-            Toast.makeText(this, "Quiz Score: ${correctAnswers} / ${numOfQuestions}, ${String.format("%.2f", score)}%", Toast.LENGTH_SHORT).show()
-        }
-
         checkQuestionAnswered()
     }
 
-    private fun disableButtons() {
+    private fun checkIfQuizFinished() {
 
+        val numOfQuestions = quizViewModel.numOfQuestions
+
+        if (quizViewModel.currentQuestionsAnswered == numOfQuestions) {
+            val score = (quizViewModel.currentCorrectQuestionsAnswered.toDouble() / numOfQuestions) * 100
+            Toast.makeText(this, "Quiz Score: ${quizViewModel.currentCorrectQuestionsAnswered} / ${numOfQuestions}, ${String.format("%.2f", score)}%", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun updateNavButtons() {
