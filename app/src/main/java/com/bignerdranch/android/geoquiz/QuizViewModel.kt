@@ -9,12 +9,12 @@ const val IS_CHEATER_KEY = "IS_CHEATER_KEY"
 
 class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true))
+        Question(R.string.question_basketball_1, true),
+        Question(R.string.question_basketball_2, false),
+        Question(R.string.question_basketball_3, false),
+        Question(R.string.question_basketball_4, false),
+        Question(R.string.question_basketball_5, true),
+        Question(R.string.question_basketball_6, false))
 
     val answersCorrect = arrayOfNulls<Boolean?>(questionBank.size)
 

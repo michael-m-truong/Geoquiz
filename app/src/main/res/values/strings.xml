@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
-    <string name="question_australia">Canberra is the capital of Australia.</string>
-    <string name="question_oceans">The Pacific Ocean is larger than
-the Atlantic Ocean.</string>
-    <string name="question_mideast">The Suez Canal connects the Red Sea
-and the Indian Ocean.</string>
-    <string name="question_africa">The source of the Nile River is in Egypt.</string>
-    <string name="question_americas">The Amazon River is the longest river
-in the Americas.</string>
-    <string name="question_asia">Lake Baikal is the world\'s oldest and deepest
-freshwater lake.</string>
+    <string name="question_basketball_1">Kobe Bryant played on the lakers</string>
+    <string name="question_basketball_2">A slam dunk in basketball is worth three points</string>
+    <string name="question_basketball_3">A free throw in basketball is worth two points.</string>
+    <string name="question_basketball_4">Traveling is not considered a violation in basketball.</string>
+    <string name="question_basketball_5">The NBA is the highest level of professional basketball in the United States.</string>
+    <string name="question_basketball_6">The three-point line in basketball is the same distance in college basketball than it is in the NBA</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="correct_toast">Correct!</string>
