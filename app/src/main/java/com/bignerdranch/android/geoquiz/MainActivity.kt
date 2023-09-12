@@ -102,7 +102,12 @@ class MainActivity : AppCompatActivity() {
         // Get a reference to the TextView
         val textView = binding.questionAnswered
 
-        if (isAnswerCorrect == true) {
+        if (quizViewModel.isCheater) {
+            textView.setBackgroundColor(Color.RED)
+            textView.text =getString(R.string.judgment_toast)
+        }
+
+        else if (isAnswerCorrect == true) {
             // If the answer is correct, set background color to green and change the text
             textView.setBackgroundColor(Color.parseColor("#39c678"))
             textView.text = getString(R.string.answered_correct)
@@ -111,9 +116,6 @@ class MainActivity : AppCompatActivity() {
             textView.setBackgroundColor(Color.RED)
             textView.text = getString(R.string.answered_incorrect)
         }
-
-        // Make the TextView visible
-        textView.visibility = View.VISIBLE
     }
 
 
