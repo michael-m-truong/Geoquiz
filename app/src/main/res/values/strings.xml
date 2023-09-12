@@ -21,4 +21,7 @@ freshwater lake.</string>
     <string name="cheat_button">Cheat!</string>
     <string name="judgment_toast">Cheating is wrong.</string>
     <string name="title_activity_cheat">CheatActivity</string>
+
+    <string name="answered_correct">Answered Correctly</string>
+    <string name="answered_incorrect">Answered Incorrectly</string>
 </resources>

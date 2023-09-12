@@ -31,7 +31,25 @@
 
 	<!-- Include the buttons layout -->
 
-	<include
+
+	<TextView
+		android:id="@+id/question_answered"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="#39c678"
+		android:gravity="center"
+		android:paddingTop="30dp"
+		android:paddingBottom="50dp"
+		android:text="@string/answered_correct"
+		android:textSize="30sp"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/question_text_view"
+		android:visibility="invisible"
+		/>
+
+
+		<include
 
 		layout="@layout/true_false_buttons" />
 
